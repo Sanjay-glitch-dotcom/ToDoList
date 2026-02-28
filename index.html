@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#f5c542" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="My Tasks" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <title>To-Do List</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- Liquid Blob Splash Screen -->
+  <div id="splash">
+    <div class="blob-container">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+    <div class="splash-inner">
+      <div class="splash-title-wrap">
+        <div class="splash-logo">✦</div>
+        <div class="splash-name">My Tasks</div>
+        <div class="splash-tagline">Get things done</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App Card -->
+  <div class="card">
+
+    <!-- Theme Toggle -->
+    <div class="toggle-wrap">
+      <span class="toggle-label" id="toggleLabel">🌙</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="themeToggle" onchange="toggleTheme()" />
+        <div class="toggle-track"></div>
+        <div class="toggle-thumb"></div>
+      </label>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <h1>My <span>Tasks</span></h1>
+      <p class="stats" id="stats">0 tasks remaining</p>
+    </div>
+
+    <!-- Add Task -->
+    <div class="input-row">
+      <input type="text" id="taskInput" placeholder="Add a new task..." />
+      <button onclick="addTask()" title="Add Task">+</button>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+      <button class="active" onclick="setFilter('all', this)">All</button>
+      <button onclick="setFilter('active', this)">Active</button>
+      <button onclick="setFilter('done', this)">Done</button>
+    </div>
+
+    <!-- Task List -->
+    <ul class="todo-list" id="todoList"></ul>
+
+    <!-- Footer -->
+    <div class="footer">
+      <span id="doneCount">0 completed</span>
+      <button class="clear-btn" onclick="clearDone()">Clear completed</button>
+    </div>
+
+    <!-- History Section -->
+    <div class="history-section">
+      <div class="history-header" onclick="toggleHistory()">
+        <div class="history-title">
+          🕓 History
+          <span class="history-count" id="historyCount">0</span>
+          <span class="history-toggle-icon open" id="historyIcon">▼</span>
+        </div>
+        <button class="history-clear" onclick="clearHistory(event)">Clear all</button>
+      </div>
+      <ul class="history-list" id="historyList"></ul>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // ── Register Service Worker ──
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('[PWA] Service Worker registered:', reg.scope))
+          .catch(err => console.log('[PWA] Service Worker failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>
